@@ -1,0 +1,60 @@
+text {
+  fill: #42527e;
+  pointer-events: none;
+  text-anchor: middle;
+  font-size: 14px;
+  font-family: Verdana, sans-serif;
+  white-space: pre-line;
+}
+
+tspan {
+  text-anchor: middle;
+  white-space: nowrap;
+}
+
+.hilite {
+  font-weight: bold;
+}
+
+[role=button] {
+  fill: #a99e89;
+}
+
+[role=button] rect {
+  rx: 2px;
+  ry: 2px;
+}
+
+#place-controls [role=button] rect:hover,
+[role=button].active rect {
+  fill: #42527e;
+}
+
+[role=button] text {
+  stroke: none;
+  fill: white;
+  pointer-events: none;
+  text-anchor: middle;
+  font-size: 14px;
+  font-family: Verdana, sans-serif;
+}
+
+#IPA-vowels {
+  display: none;
+}
+
+#IPA-vowels.show {
+  display: inline;
+}
+
+#place-labels text {
+  stroke: none;
+  fill: black;
+  text-anchor: start;
+}
+
+body {
+  width: 100%;
+  max-width: 800px;
+  /* overflow: visible; */
+}
