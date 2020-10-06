@@ -7,7 +7,6 @@ let voiced_button = null;
 let voiceless_button = null;
 let IPA_button = null;
 let IPA_vowels = null;
-"use strict";
 
 window.onload = function() {
   Tongue = document.getElementById("tongue");
@@ -20,10 +19,54 @@ window.onload = function() {
   button_group.addEventListener(`mouseover`, ShowPosition, true);
   button_group.addEventListener(`mouseout`, ShowPosition, true);
 
+  const pronounce_group = document.querySelectorAll(".pronounce");
+  for(const pronounce of pronounce_group) {
+      pronounce.addEventListener(`click`, speak);
+  }
+
   IPA_vowels = document.getElementById(`IPA-vowels`);
   IPA_button = document.getElementById(`IPA-button`);
   IPA_button.addEventListener(`mouseover`, ToggleIPA, true);
 };
+
+const pronunciation = {
+    // Need to fix: f, th2
+    "p-button": "pa",
+    "b-button": "buh",
+    "f-button": "fa",
+    "v-button": "vuh",
+    "t-button": "ta",
+    "th1-button": "thuh",
+    "th2-button": "the",
+    "d-button": "duh",
+    "sh-button": "shuh",
+    "dg-button": "juh",
+    "y-button": "yuh",
+    "k-button": "kah",
+    "g-button": "guh",
+    "uh-button": "uh"
+    // "m": "muh",
+    // "s": "sis",
+    // "z": "ziz",
+    // "n": "in",
+    // "l": "ull",
+    // "r": "ar",
+    // "ch": "chuh",
+    // "w": "wuh",
+    // "ng": "ing"
+};
+
+var synth = window.speechSynthesis;
+"use strict";
+function speak(event) {
+    const target = event.target;
+    const id = target.id;
+    const pronounce = pronunciation[id];
+    var utterance = new SpeechSynthesisUtterance(pronounce);
+    utterance.pitch = 1;
+    utterance.rate = 1;
+    synth.speak(utterance);
+}
 
 function ToggleIPA (evt) {
   var button = evt.target.parentNode;

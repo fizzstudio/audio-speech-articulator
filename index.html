@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+<!-- updated code  -->
 <head>
     <link rel="stylesheet" href="style.css">
     <script src="main.js" defer></script>
 </head>
 <body>
-    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 470">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 705 470">
       <title>Speech Articulator: Animated Speech Articulation Guide</title>
     
       <desc>
@@ -27,7 +28,7 @@
         You should have received a copy of the GNU Affero General Public License
         along with this program.  If not, see https://www.gnu.org/licenses/.
       </metadata>
-    
+      
       <text id="label" x="200" y="460" font-size="30" font-weight="bold" fill="brown" font-family="Verdana, sans-serif" text-anchor="middle">Speech Articulator</text>
 
   <g stroke="brown" stroke-width="2" fill="pink">
@@ -119,31 +120,31 @@
         <text id="voiceless-label" x="50" y="15">voiceless</text>
 
         <g id="voiceless-bilabial-button" data-place="bilabial" data-voice="voiceless" role="button" transform="translate(0, 25)">
-          <rect width="100" height="20"/>
+          <rect class="pronounce" id="p-button" width="100" height="20"/>
           <text id="bilabial-label" x="50" y="15">p</text>
         </g>
         <g id="voiceless-labiodental-button" data-place="labiodental" data-voice="voiceless" role="button" transform="translate(0, 70)">
-          <rect width="100" height="20"/>
+          <rect class="pronounce" id="f-button" width="100" height="20"/>
           <text id="labiodental-label" x="50" y="15">f</text>
         </g>
         <g id="voiceless-interdental-button" data-place="interdental" data-voice="voiceless" role="button" transform="translate(0, 100)">
-          <rect width="100" height="20"/>
+          <rect class="pronounce" id="th1-button" width="100" height="20"/>
           <text id="interdental-label" x="50" y="15">th (thing)</text>
         </g>
         <g id="voiceless-dental-button" data-place="dental" data-voice="voiceless" role="button" transform="translate(0, 130)">
-          <rect width="100" height="35"/>
+          <rect class="pronounce" id="t-button" width="100" height="35"/>
           <text id="dental-label"><tspan x="50" y="15">t</tspan><tspan x="50" dy="15">s</tspan></text>
         </g>
         <g id="voiceless-alveopalatal-button" data-place="alveopalatal" data-voice="voiceless" role="button" transform="translate(0, 220)">
-          <rect width="100" height="35"/>
+          <rect class="pronounce" id="sh-button" width="100" height="35"/>
           <text id="alveopalatal-label"><tspan x="50" y="15">sh (shoe)</tspan><tspan x="50" dy="15" class="example">ch (chart)</tspan></text>
         </g>
         <g id="voiceless-velar-button" data-place="velar" data-voice="voiceless" role="button" transform="translate(0, 295)">
-          <rect width="100" height="20"/>
+          <rect class="pronounce" id="k-button" width="100" height="20"/>
           <text id="velar-label" x="50" y="15">k</text>
         </g>
         <g id="voiceless-glottal-button" data-place="glottal" data-voice="voiceless" role="button" transform="translate(0, 355)">
-          <rect width="100" height="35"/>
+          <rect class="pronounce" id="uh-button" width="100" height="35"/>
           <text id="glottal-label"><tspan x="50" y="15">uh</tspan><tspan x="50" dy="15" class="example">h</tspan></text>
         </g>
       </g>
@@ -152,31 +153,31 @@
         <text id="voiced-label" x="50" y="15">voiced</text>
 
         <g id="voiced-bilabial-button" data-place="bilabial" data-voice="voiced" role="button" transform="translate(0, 25)">
-          <rect width="100" height="35"/>
+          <rect class="pronounce" id="b-button" width="100" height="35"/>
           <text id="bilabial-label"><tspan x="50" y="15">b</tspan><tspan x="50" dy="15">m</tspan></text>
         </g>
         <g id="voiced-labiodental-button" data-place="labiodental" data-voice="voiced" role="button" transform="translate(0, 70)">
-          <rect width="100" height="20"/>
+          <rect class="pronounce" id="v-button" width="100" height="20"/>
           <text id="labiodental-label" x="50" y="15">v</text>
         </g>
         <g id="voiced-interdental-button" data-place="interdental" data-voice="voiced" role="button" transform="translate(0, 100)">
-          <rect width="100" height="20"/>
+          <rect class="pronounce" id="th2-button" width="100" height="20"/>
           <text id="interdental-label" x="50" y="15">th (then)</text>
         </g>
         <g id="voiced-dental-button" data-place="dental" data-voice="voiced" role="button" transform="translate(0, 130)">
-          <rect width="100" height="80"/>
+          <rect class="pronounce" id="d-button" width="100" height="80"/>
           <text id="dental-label"><tspan x="50" y="15">d</tspan><tspan x="50" dy="15">z</tspan><tspan x="50" dy="15">n</tspan><tspan x="50" dy="15">l</tspan><tspan x="50" dy="15">r</tspan></text>
         </g>
         <g id="voiced-alveopalatal-button" data-place="alveopalatal" data-voice="voiced" role="button" transform="translate(0, 220)">
-          <rect width="100" height="35"/>
+          <rect class="pronounce" id="dg-button" width="100" height="35"/>
           <text id="alveopalatal-label"><tspan x="50" y="15">dg</tspan><tspan x="50" dy="15" class="example">(ca<tspan class="hilite">s</tspan>ual, <tspan class="hilite">j</tspan>elly)</tspan></text>
         </g>
         <g id="voiced-palatal-button" data-place="palatal" data-voice="voiced" role="button" transform="translate(0, 265)">
-          <rect width="100" height="20"/>
+          <rect class="pronounce" id="y-button" width="100" height="20"/>
           <text id="palatal-label" x="50" y="15">y (yellow)</text>
         </g>
         <g id="voiced-velar-button" data-place="velar" data-voice="voiced" role="button" transform="translate(0, 295)">
-          <rect width="100" height="50"/>
+          <rect class="pronounce" id="g-button" width="100" height="50"/>
           <text id="velar-label"><tspan x="50" y="15">g</tspan><tspan x="50" dy="15">w</tspan><tspan x="50" dy="15">ng (sing)</tspan></text>
         </g>
       </g>
