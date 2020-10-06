@@ -56,5 +56,8 @@ tspan {
 body {
   width: 100%;
   max-width: 800px;
-  /* overflow: visible; */
+}
+
+svg {
+  width: 1000px;
 }
