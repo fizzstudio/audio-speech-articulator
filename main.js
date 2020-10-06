@@ -7,6 +7,7 @@ let voiced_button = null;
 let voiceless_button = null;
 let IPA_button = null;
 let IPA_vowels = null;
+"use strict";
 
 window.onload = function() {
   Tongue = document.getElementById("tongue");
