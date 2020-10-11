@@ -15,13 +15,16 @@ window.onload = function() {
   VocalFolds = document.getElementById("vocalFolds");
   Cartilage = document.getElementById("CuneiformCorniculateCartilage");
 
+  const bananaButton = document.getElementById("banana");
+  bananaButton.addEventListener(`click`, pronounce, true);
+
   const button_group = document.getElementById(`place-controls`);
   button_group.addEventListener(`mouseover`, ShowPosition, true);
   button_group.addEventListener(`mouseout`, ShowPosition, true);
 
   const pronounce_group = document.querySelectorAll(".pronounce");
   for(const pronounce of pronounce_group) {
-      pronounce.addEventListener(`click`, speak);
+    pronounce.addEventListener(`click`, speak);
   }
 
   IPA_vowels = document.getElementById(`IPA-vowels`);
@@ -56,17 +59,41 @@ const pronunciation = {
     // "ng": "ing"
 };
 
+const pronunciation_lookup = {
+  "p": {
+    "sound" : "pa",
+    "place" : "bilabial",
+    "voice" : "voiceless"
+  },
+  "b" : {
+    "sound" : "ba",
+    "place" : "bilabial",
+    "voice" : "voiced"
+  }, 
+  "n" : {
+    "sound" : "na",
+    "place" : "alveolar",
+    "voice" : "voiced"
+  }
+};
+
 var synth = window.speechSynthesis;
 "use strict";
 function speak(event) {
-    const target = event.target;
-    const id = target.id;
-    const pronounce = pronunciation[id];
-    var utterance = new SpeechSynthesisUtterance(pronounce);
-    utterance.pitch = 1;
-    utterance.rate = 1;
-    synth.speak(utterance);
+  const target = event.target;
+  const key = target.id.replace("-button", "");
+  const pronounce = pronunciation_lookup[key];
+  const sound = pronounce.sound;
+  say(sound);
 }
+
+function say(sound) {
+  var utterance = new SpeechSynthesisUtterance(sound);
+  utterance.pitch = 1;
+  utterance.rate = 1;
+  synth.speak(utterance);
+}
+ 
 
 function ToggleIPA (evt) {
   var button = evt.target.parentNode;
@@ -74,299 +101,285 @@ function ToggleIPA (evt) {
   IPA_vowels.classList.toggle(`show`);
 };
 
+function pronounce () {
+  const consonants = ["b", "n", "n"];
+  consonants.forEach((consonant) => {
+    const soundObject = pronunciation_lookup[consonant];
+    const sound = soundObject.sound;
+    const place = soundObject.place;
+    const voice = soundObject.voice;
+    window.setTimeout(say(sound), 100);
+    window.setTimeout(animateSound(place, voice), 2000);
+  });
+};
+
 function ShowPosition (evt) {
-  try {
-    var button = evt.target.parentNode;
-    let place = button.dataset.place;
-    let voice = button.dataset.voice;
+  var button = evt.target.parentNode;
+  let place = button.dataset.place;
+  let voice = button.dataset.voice;
+  animateSound(place, voice);
+};
 
-    var vocalFoldsDesc = vocalFoldsArray[voice];
-    newVocalFolds = vocalFoldsDesc;
+function animateSound (place, voice) {
+  var vocalFoldsDesc = vocalFoldsArray[voice];
+  newVocalFolds = vocalFoldsDesc;
 
-    var cartilageDesc = cartilageArray[voice];
-    newCartilage = cartilageDesc;
+  var cartilageDesc = cartilageArray[voice];
+  newCartilage = cartilageDesc;
 
-    AnimateVocalFolds();
-    AnimateCartilage();
+  AnimateVocalFolds();
+  AnimateCartilage();
 
-    var jawPosition = place;
-    if (!jawArray[place]) {
-      jawPosition = "rest";
-    }
-    var jawDesc = jawArray[jawPosition];
-
-    var palettePosition = place;
-    if (!paletteArray[place]) {
-      palettePosition = "pharyngeal";
-    }
-    var paletteDesc = paletteArray[palettePosition];
-
-    var tonguePosition = place;
-    if (!tongueArray[place]) {
-      tonguePosition = "rest";
-    }
-    var tongueDesc = tongueArray[tonguePosition];
-
-    newTongue = tongueDesc;
-    AnimateTongue();
-
-    newJaw = jawDesc;
-    AnimateJaw();
-    newPalette = paletteDesc;
-    AnimatePalette();
-
-  } catch (er) {
-    console.log("Error in function ShowPosition:\n" + er.message)
+  var jawPosition = place;
+  if (!jawArray[place]) {
+    jawPosition = "rest";
   }
+  var jawDesc = jawArray[jawPosition];
+
+  var palettePosition = place;
+  if (!paletteArray[place]) {
+    palettePosition = "pharyngeal";
+  }
+  var paletteDesc = paletteArray[palettePosition];
+
+  var tonguePosition = place;
+  if (!tongueArray[place]) {
+    tonguePosition = "rest";
+  }
+  var tongueDesc = tongueArray[tonguePosition];
+
+  newTongue = tongueDesc;
+  AnimateTongue();
+
+  newJaw = jawDesc;
+  AnimateJaw();
+  newPalette = paletteDesc;
+  AnimatePalette();
 };
 
 function AnimateMouth(mouthPart, currentPos, newPos) {
-  try {
-    var currentPos = mouthPart.getAttribute("d");
-    newPos = newPos.replace(/,/g, " ");
-    currentPos = currentPos.replace(/,/g, " ");
+  var currentPos = mouthPart.getAttribute("d");
+  newPos = newPos.replace(/,/g, " ");
+  currentPos = currentPos.replace(/,/g, " ");
 
-    if (newPos != currentPos) {
-      var changed = false;
+  if (newPos != currentPos) {
+    var changed = false;
 
-      var currentArray = currentPos.split(/\W+/);
-      var newArray = newPos.split(/\W+/);
-      for (var n = 0; currentArray.length > n; n++) {
-        if (currentArray[n]) {
-          header = currentArray[n].match(/\D/);
-          eachCurrentNum = Number(currentArray[n].match(/\d+/));
-          eachNewNum = Number(newArray[n].match(/\d+/));
+    var currentArray = currentPos.split(/\W+/);
+    var newArray = newPos.split(/\W+/);
+    for (var n = 0; currentArray.length > n; n++) {
+      if (currentArray[n]) {
+        header = currentArray[n].match(/\D/);
+        eachCurrentNum = Number(currentArray[n].match(/\d+/));
+        eachNewNum = Number(newArray[n].match(/\d+/));
 
-          if (eachNewNum > eachCurrentNum) {
-            eachCurrentNum++;
-            changed = true;
-            //console.log(eachNewNum +" : " + eachCurrentNum)
-          } else if (eachCurrentNum > eachNewNum) {
-            eachCurrentNum--;
-            changed = true;
-          }
-          currentArray[n] = header + eachCurrentNum;
+        if (eachNewNum > eachCurrentNum) {
+          eachCurrentNum++;
+          changed = true;
+          //console.log(eachNewNum +" : " + eachCurrentNum)
+        } else if (eachCurrentNum > eachNewNum) {
+          eachCurrentNum--;
+          changed = true;
         }
-      }
-
-      var currentPos = currentArray.join(" ");
-      mouthPart.setAttribute("d", currentPos);
-
-      if (changed) {
-        //console.log(0) window.status = newPos +" :: " + currentPos;
-        window.setTimeout(AnimateMouth(mouthPart, currentPos, newPos), 1000000);
+        currentArray[n] = header + eachCurrentNum;
       }
     }
-  } catch (er) {
-    console.log("Error in function AnimateMouth:\n" + er.message)
+
+    var currentPos = currentArray.join(" ");
+    mouthPart.setAttribute("d", currentPos);
+
+    if (changed) {
+      //console.log(0) window.status = newPos +" :: " + currentPos;
+      window.setTimeout(AnimateMouth(mouthPart, currentPos, newPos), 1000000);
+    }
   }
 };
 
 var newTongue = null;
 function AnimateTongue() {
-  try {
-    var currentTongue = Tongue.getAttribute("d");
-    newTongue = newTongue.replace(/,/g, " ");
-    currentTongue = currentTongue.replace(/,/g, " ");
+  var currentTongue = Tongue.getAttribute("d");
+  newTongue = newTongue.replace(/,/g, " ");
+  currentTongue = currentTongue.replace(/,/g, " ");
 
-    if (newTongue != currentTongue) {
-      var changed = false;
+  if (newTongue != currentTongue) {
+    var changed = false;
 
-      var descArray = currentTongue.split(/\W+/);
-      var newArray = newTongue.split(/\W+/);
-      for (var n = 0; descArray.length > n; n++) {
-        if (descArray[n]) {
-          header = descArray[n].match(/\D/);
-          eachDescNum = Number(descArray[n].match(/\d+/));
-          eachNewNum = Number(newArray[n].match(/\d+/));
+    var descArray = currentTongue.split(/\W+/);
+    var newArray = newTongue.split(/\W+/);
+    for (var n = 0; descArray.length > n; n++) {
+      if (descArray[n]) {
+        header = descArray[n].match(/\D/);
+        eachDescNum = Number(descArray[n].match(/\d+/));
+        eachNewNum = Number(newArray[n].match(/\d+/));
 
-          if (eachNewNum > eachDescNum) {
-            eachDescNum++;
-            changed = true;
-          } else if (eachDescNum > eachNewNum) {
-            eachDescNum--;
-            changed = true;
-          }
-          descArray[n] = header + eachDescNum;
+        if (eachNewNum > eachDescNum) {
+          eachDescNum++;
+          changed = true;
+        } else if (eachDescNum > eachNewNum) {
+          eachDescNum--;
+          changed = true;
         }
-      }
-
-      var tempDesc = descArray.join(" ");
-      Tongue.setAttribute("d", tempDesc);
-
-      if (changed) {
-        window.setTimeout("AnimateTongue()", 1);
+        descArray[n] = header + eachDescNum;
       }
     }
-  } catch (er) {
-    console.log("Error in function AnimateTongue:\n" + er.message)
+
+    var tempDesc = descArray.join(" ");
+    Tongue.setAttribute("d", tempDesc);
+
+    if (changed) {
+      window.setTimeout("AnimateTongue()", 1);
+    }
   }
 };
 
 var newJaw = null;
 function AnimateJaw() {
-  try {
-    var currentJaw = Jaw.getAttribute("d");
-    newJaw = newJaw.replace(/,/g, " ");
-    currentJaw = currentJaw.replace(/,/g, " ");
+  var currentJaw = Jaw.getAttribute("d");
+  newJaw = newJaw.replace(/,/g, " ");
+  currentJaw = currentJaw.replace(/,/g, " ");
 
-    if (newJaw != currentJaw) {
-      var changed = false;
+  if (newJaw != currentJaw) {
+    var changed = false;
 
-      var descArray = currentJaw.split(/\W+/);
-      var newArray = newJaw.split(/\W+/);
-      for (var n = 0; descArray.length > n; n++) {
-        if (descArray[n]) {
-          header = descArray[n].match(/\D/);
-          eachDescNum = Number(descArray[n].match(/\d+/));
-          eachNewNum = Number(newArray[n].match(/\d+/));
+    var descArray = currentJaw.split(/\W+/);
+    var newArray = newJaw.split(/\W+/);
+    for (var n = 0; descArray.length > n; n++) {
+      if (descArray[n]) {
+        header = descArray[n].match(/\D/);
+        eachDescNum = Number(descArray[n].match(/\d+/));
+        eachNewNum = Number(newArray[n].match(/\d+/));
 
-          if (eachNewNum > eachDescNum) {
-            eachDescNum++;
-            changed = true;
-          } else if (eachDescNum > eachNewNum) {
-            eachDescNum--;
-            changed = true;
-          }
-          descArray[n] = header + eachDescNum;
+        if (eachNewNum > eachDescNum) {
+          eachDescNum++;
+          changed = true;
+        } else if (eachDescNum > eachNewNum) {
+          eachDescNum--;
+          changed = true;
         }
-      }
-
-      var tempDesc = descArray.join(" ");
-      Jaw.setAttribute("d", tempDesc);
-
-      if (changed) {
-        window.setTimeout("AnimateJaw()", 1);
+        descArray[n] = header + eachDescNum;
       }
     }
-  } catch (er) {
-    console.log("Error in function AnimateJaw:\n" + er.message)
+
+    var tempDesc = descArray.join(" ");
+    Jaw.setAttribute("d", tempDesc);
+
+    if (changed) {
+      window.setTimeout("AnimateJaw()", 1);
+    }
   }
 };
 
 var newPalette = null;
 function AnimatePalette() {
-  try {
-    var currentPalette = Palette.getAttribute("d");
-    newPalette = newPalette.replace(/,/g, " ");
-    currentPalette = currentPalette.replace(/,/g, " ");
+  var currentPalette = Palette.getAttribute("d");
+  newPalette = newPalette.replace(/,/g, " ");
+  currentPalette = currentPalette.replace(/,/g, " ");
 
-    if (newPalette != currentPalette) {
-      var changed = false;
+  if (newPalette != currentPalette) {
+    var changed = false;
 
-      var descArray = currentPalette.split(/\W+/);
-      var newArray = newPalette.split(/\W+/);
-      for (var n = 0; descArray.length > n; n++) {
-        if (descArray[n]) {
-          header = descArray[n].match(/\D/);
-          eachDescNum = Number(descArray[n].match(/\d+/));
-          eachNewNum = Number(newArray[n].match(/\d+/));
+    var descArray = currentPalette.split(/\W+/);
+    var newArray = newPalette.split(/\W+/);
+    for (var n = 0; descArray.length > n; n++) {
+      if (descArray[n]) {
+        header = descArray[n].match(/\D/);
+        eachDescNum = Number(descArray[n].match(/\d+/));
+        eachNewNum = Number(newArray[n].match(/\d+/));
 
-          if (eachNewNum > eachDescNum) {
-            eachDescNum++;
-            changed = true;
-          } else if (eachDescNum > eachNewNum) {
-            eachDescNum--;
-            changed = true;
-          }
-          descArray[n] = header + eachDescNum;
+        if (eachNewNum > eachDescNum) {
+          eachDescNum++;
+          changed = true;
+        } else if (eachDescNum > eachNewNum) {
+          eachDescNum--;
+          changed = true;
         }
-      }
-
-      var tempDesc = descArray.join(" ");
-      Palette.setAttribute("d", tempDesc);
-
-      if (changed) {
-        window.setTimeout("AnimatePalette()", 0);
+        descArray[n] = header + eachDescNum;
       }
     }
-  } catch (er) {
-    console.log("Error in function AnimatePalette:\n" + er.message)
+
+    var tempDesc = descArray.join(" ");
+    Palette.setAttribute("d", tempDesc);
+
+    if (changed) {
+      window.setTimeout("AnimatePalette()", 0);
+    }
   }
 };
 
 var newVocalFolds = null;
 function AnimateVocalFolds() {
-  try {
-    var currentVocalFolds = VocalFolds.getAttribute("d");
-    newVocalFolds = newVocalFolds.replace(/,/g, " ");
-    currentVocalFolds = currentVocalFolds.replace(/,/g, " ");
+  var currentVocalFolds = VocalFolds.getAttribute("d");
+  newVocalFolds = newVocalFolds.replace(/,/g, " ");
+  currentVocalFolds = currentVocalFolds.replace(/,/g, " ");
 
-    if (newVocalFolds != currentVocalFolds) {
-      var changed = false;
+  if (newVocalFolds != currentVocalFolds) {
+    var changed = false;
 
-      var descArray = currentVocalFolds.split(/\W+/);
-      var newArray = newVocalFolds.split(/\W+/);
-      for (var n = 0; descArray.length > n; n++) {
-        if (descArray[n]) {
-          header = descArray[n].match(/\D/);
-          eachDescNum = Number(descArray[n].match(/\d+/));
-          eachNewNum = Number(newArray[n].match(/\d+/));
+    var descArray = currentVocalFolds.split(/\W+/);
+    var newArray = newVocalFolds.split(/\W+/);
+    for (var n = 0; descArray.length > n; n++) {
+      if (descArray[n]) {
+        header = descArray[n].match(/\D/);
+        eachDescNum = Number(descArray[n].match(/\d+/));
+        eachNewNum = Number(newArray[n].match(/\d+/));
 
-          if (eachNewNum > eachDescNum) {
-            eachDescNum++;
-            changed = true;
-          } else if (eachDescNum > eachNewNum) {
-            eachDescNum--;
-            changed = true;
-          }
-          descArray[n] = header + eachDescNum;
+        if (eachNewNum > eachDescNum) {
+          eachDescNum++;
+          changed = true;
+        } else if (eachDescNum > eachNewNum) {
+          eachDescNum--;
+          changed = true;
         }
-      }
-
-      var tempDesc = descArray.join(" ");
-      VocalFolds.setAttribute("d", tempDesc);
-
-      if (changed) {
-        window.setTimeout("AnimateVocalFolds()", 0);
+        descArray[n] = header + eachDescNum;
       }
     }
-  } catch (er) {
-    console.log("Error in function AnimateVocalFolds:\n" + er.message)
+
+    var tempDesc = descArray.join(" ");
+    VocalFolds.setAttribute("d", tempDesc);
+
+    if (changed) {
+      window.setTimeout("AnimateVocalFolds()", 0);
+    }
   }
 };
 
 var newCartilage = null;
 function AnimateCartilage() {
-  try {
-    var currentCartilage = Cartilage.getAttribute("d");
-    newCartilage = newCartilage.replace(/,/g, " ");
-    currentCartilage = currentCartilage.replace(/,/g, " ");
+  var currentCartilage = Cartilage.getAttribute("d");
+  newCartilage = newCartilage.replace(/,/g, " ");
+  currentCartilage = currentCartilage.replace(/,/g, " ");
 
-    if (newCartilage != currentCartilage) {
-      var changed = false;
+  if (newCartilage != currentCartilage) {
+    var changed = false;
 
-      var descArray = currentCartilage.split(/\W+/);
-      var newArray = newCartilage.split(/\W+/);
-      for (var n = 0; descArray.length > n; n++) {
-        if (descArray[n]) {
-          //console.log(descArray[n])
-          header = descArray[n].match(/\D/);
-          eachDescNum = Number(descArray[n].match(/\d+/));
-          eachNewNum = Number(newArray[n].match(/\d+/));
+    var descArray = currentCartilage.split(/\W+/);
+    var newArray = newCartilage.split(/\W+/);
+    for (var n = 0; descArray.length > n; n++) {
+      if (descArray[n]) {
+        //console.log(descArray[n])
+        header = descArray[n].match(/\D/);
+        eachDescNum = Number(descArray[n].match(/\d+/));
+        eachNewNum = Number(newArray[n].match(/\d+/));
 
-          if ("Z" == header) {
-            eachDescNum = "";
-          } else if (eachNewNum > eachDescNum) {
-            eachDescNum++;
-            changed = true;
-          } else if (eachDescNum > eachNewNum) {
-            eachDescNum--;
-            changed = true;
-          }
-          descArray[n] = header + eachDescNum;
+        if ("Z" == header) {
+          eachDescNum = "";
+        } else if (eachNewNum > eachDescNum) {
+          eachDescNum++;
+          changed = true;
+        } else if (eachDescNum > eachNewNum) {
+          eachDescNum--;
+          changed = true;
         }
-      }
-
-      var tempDesc = descArray.join(" ");
-      Cartilage.setAttribute("d", tempDesc);
-
-      if (changed) {
-        window.setTimeout("AnimateCartilage()", 0);
+        descArray[n] = header + eachDescNum;
       }
     }
-  } catch (er) {
-    console.log("Error in function AnimateCartilage:\n" + er.message)
+
+    var tempDesc = descArray.join(" ");
+    Cartilage.setAttribute("d", tempDesc);
+
+    if (changed) {
+      window.setTimeout("AnimateCartilage()", 0);
+    }
   }
 };
 
