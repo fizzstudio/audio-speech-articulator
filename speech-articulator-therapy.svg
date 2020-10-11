@@ -115,7 +115,7 @@
     </mask>
   </defs>
 
-  <g id="phraynx" mask="url(#fademask)">
+  <g id="pharynx" mask="url(#fademask)">
     <ellipse id="vocalBack" cx="270" cy="330" rx="44" ry="40" fill="pink"/>
     <path id="gap" d="M270,309 Q285,334 284,361
           Q279,364 270,371 262,364 256,361
