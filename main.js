@@ -19,8 +19,8 @@ window.onload = function() {
   bananaButton.addEventListener(`click`, pronounce, true);
 
   const button_group = document.getElementById(`place-controls`);
-  button_group.addEventListener(`mouseover`, ShowPosition, true);
-  button_group.addEventListener(`mouseout`, ShowPosition, true);
+  button_group.addEventListener(`click`, ShowPosition, true);
+  button_group.addEventListener(`click`, ShowPosition, true);
 
   const pronounce_group = document.querySelectorAll(".pronounce");
   for(const pronounce of pronounce_group) {
@@ -29,34 +29,7 @@ window.onload = function() {
 
   IPA_vowels = document.getElementById(`IPA-vowels`);
   IPA_button = document.getElementById(`IPA-button`);
-  IPA_button.addEventListener(`mouseover`, ToggleIPA, true);
-};
-
-const pronunciation = {
-    // Need to fix: f, th2
-    "p-button": "pa",
-    "b-button": "buh",
-    "f-button": "fa",
-    "v-button": "vuh",
-    "t-button": "ta",
-    "th1-button": "thuh",
-    "th2-button": "the",
-    "d-button": "duh",
-    "sh-button": "shuh",
-    "dg-button": "juh",
-    "y-button": "yuh",
-    "k-button": "kah",
-    "g-button": "guh",
-    "uh-button": "uh"
-    // "m": "muh",
-    // "s": "sis",
-    // "z": "ziz",
-    // "n": "in",
-    // "l": "ull",
-    // "r": "ar",
-    // "ch": "chuh",
-    // "w": "wuh",
-    // "ng": "ing"
+  IPA_button.addEventListener(`click`, ToggleIPA, true);
 };
 
 const pronunciation_lookup = {
@@ -70,10 +43,110 @@ const pronunciation_lookup = {
     "place" : "bilabial",
     "voice" : "voiced"
   }, 
+  "m" : {
+    "sound" : "ma",
+    "place" : "bilabial",
+    "voice" : "voiced"
+  },
+  "f" : {
+    "sound" : "fa",
+    "place" : "labiodental",
+    "voice" : "voiceless"
+  },
+  "th1" : {
+    "sound" : "thuh",
+    "place" : "interdental",
+    "voice" : "voiceless"
+  }, 
+  "th2" : {
+    "sound" : "the",
+    "place" : "interdental",
+    "voice" : "voiceless"
+  }, 
+  "t" : {
+    "sound" : "ta",
+    "place" : "dental",
+    "voice" : "voiceless"
+  }, 
+  "s" : {
+    "sound" : "sis",
+    "place" : "dental",
+    "voice" : "voiceless"
+  }, 
+  "d" : {
+    "sound" : "duh",
+    "place" : "dental",
+    "voice" : "voiced"
+  }, 
+  "z" : {
+    "sound" : "ziz",
+    "place" : "dental",
+    "voice" : "voiced"
+  },
   "n" : {
     "sound" : "na",
-    "place" : "alveolar",
+    "place" : "dental",
     "voice" : "voiced"
+  }, 
+  "l" : {
+    "sound" : "ull",
+    "place" : "dental",
+    "voice" : "voiced"
+  }, 
+  "r" : {
+    "sound" : "ar",
+    "place" : "dental",
+    "voice" : "voiced"
+  }, 
+  "sh" : {
+    "sound" : "shuh",
+    "place" : "alveopalatal",
+    "voice" : "voiceless"
+  }, 
+  "ch" : {
+    "sound" : "chuh",
+    "place" : "alveopalatal",
+    "voice" : "voiceless"
+  }, 
+  "dg" : {
+    "sound" : "juh",
+    "place" : "alveopalatal",
+    "voice" : "voiced"
+  }, 
+  "y" : {
+    "sound" : "yuh",
+    "place" : "palatal",
+    "voice" : "voiced"
+  }, 
+  "k" : {
+    "sound" : "ka",
+    "place" : "velar",
+    "voice" : "voiceless"
+  }, 
+  "g" : {
+    "sound" : "guh",
+    "place" : "velar",
+    "voice" : "voiced"
+  }, 
+  "w" : {
+    "sound" : "wuh",
+    "place" : "velar",
+    "voice" : "voiced"
+  }, 
+  "ng" : {
+    "sound" : "ing",
+    "place" : "velar",
+    "voice" : "voiced"
+  }, 
+  "uh" : {
+    "sound" : "uh",
+    "place" : "glottal",
+    "voice" : "voiceless"
+  },
+  "h" : {
+    "sound" : "huh",
+    "place" : "glottal",
+    "voice" : "voiceless"
   }
 };
 
