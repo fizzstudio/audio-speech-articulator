@@ -182,6 +182,7 @@ recognition.onresult = function(event) {
     }
   }
   console.log(consonants);
+  // Adjusted pronounce to take the array of consonants as argument  
   pronounce(consonants);
 }
 
@@ -211,12 +212,15 @@ function ToggleIPA (evt) {
 function pronounce (consonants) {
   console.log("pronounce " + consonants);
   consonants.forEach((consonant) => {
+    // Searching each consonant in the lookup table is causing the error  
+    // Latest approach was casting to string to aid lookup but that didn't change anything 
     const soundObject = pronunciation_lookup[String(consonant)];
     const sound = soundObject.sound;
     const place = soundObject.place;
     const voice = soundObject.voice;
     window.setTimeout(say(sound), 100);
     window.setTimeout(animateSound(place, voice), 2000);
+    // Setting to rest breaks loop after one consonant - need to explore other options 
     // tonguePosition = rest;
     // jawPosition = rest;
   });
