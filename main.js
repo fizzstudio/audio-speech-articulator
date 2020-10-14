@@ -18,6 +18,9 @@ window.onload = function() {
   const bananaButton = document.getElementById("banana");
   bananaButton.addEventListener(`click`, pronounce, true);
 
+  const entry = document.getElementById("entry");
+  entry.addEventListener(`click`, recognize, true);
+
   const button_group = document.getElementById(`place-controls`);
   button_group.addEventListener(`click`, ShowPosition, true);
   button_group.addEventListener(`click`, ShowPosition, true);
@@ -52,6 +55,11 @@ const pronunciation_lookup = {
     "sound" : "fa",
     "place" : "labiodental",
     "voice" : "voiceless"
+  },
+  "v" : {
+    "sound" : "vuh",
+    "place" : "labiodental",
+    "voice" : "voiced"
   },
   "th1" : {
     "sound" : "thuh",
@@ -150,8 +158,35 @@ const pronunciation_lookup = {
   }
 };
 
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+var recognition = new SpeechRecognition();
+recognition.continuous = false;
+recognition.lang = 'en-US';
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+
+function recognize (event) {
+  recognition.start();
+}
+
+recognition.onresult = function(event) {
+  var result = event.results[0][0].transcript;
+  console.log("recognized " + result);
+  var consonants = [];
+  const vowels = ["a", "e", "i", "o", "u"];
+  for(let i = 0; i < result.length; i++) {
+    if(!vowels.includes(result.charAt(i))) {
+      consonants.push(result.charAt(i));
+    }
+  }
+  console.log(consonants);
+  pronounce(consonants);
+}
+
 var synth = window.speechSynthesis;
-"use strict";
+
 function speak(event) {
   const target = event.target;
   const key = target.id.replace("-button", "");
@@ -167,17 +202,16 @@ function say(sound) {
   synth.speak(utterance);
 }
  
-
 function ToggleIPA (evt) {
   var button = evt.target.parentNode;
   button.classList.toggle(`active`);
   IPA_vowels.classList.toggle(`show`);
 };
 
-function pronounce () {
-  const consonants = ["b", "n", "n"];
+function pronounce (consonants) {
+  console.log("pronounce " + consonants);
   consonants.forEach((consonant) => {
-    const soundObject = pronunciation_lookup[consonant];
+    const soundObject = pronunciation_lookup[String(consonant)];
     const sound = soundObject.sound;
     const place = soundObject.place;
     const voice = soundObject.voice;
