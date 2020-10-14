@@ -6,7 +6,7 @@
 </head>
 <body>
   <button id="banana">banana</button>
-    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 705 470">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 830 700">
       <title>Speech Articulator: Animated Speech Articulation Guide</title>
     
       <desc>
@@ -94,27 +94,32 @@
         <g id="bilabial-button" role="button" transform="translate(0, 25)">
           <text id="bilabial-label" x="0" y="15">bilabial</text>
         </g>
-        <g id="labiodental-button" role="button" transform="translate(0, 70)">
+        <g id="labiodental-button" role="button" transform="translate(0, 80)">
           <text id="labiodental-label" x="0" y="15">labiodental</text>
         </g>
-        <g id="interdental-button" role="button" transform="translate(0, 100)">
+        <g id="interdental-button" role="button" transform="translate(0, 110)">
           <text id="interdental-label" x="0" y="15">interdental</text>
         </g>
-        <g id="dental-button" role="button" transform="translate(0, 130)">
+        <g id="dental-button" role="button" transform="translate(0, 140)">
           <text id="dental-label" x="0" y="15">dental</text>
         </g>
-        <g id="alveopalatal-button" role="button" transform="translate(0, 220)">
+        <g id="alveopalatal-button" role="button" transform="translate(0, 270)">
           <text id="alveopalatal-label" x="0" y="15">alveopalatal</text>
         </g>
-        <g id="palatal-button" role="button" transform="translate(0, 265)">
+        <g id="palatal-button" role="button" transform="translate(0, 325)">
           <text id="palatal-label" x="0" y="15">palatal</text>
         </g>
-        <g id="velar-button" role="button" transform="translate(0, 295)">
+        <g id="velar-button" role="button" transform="translate(0, 355)">
           <text id="velar-label" x="0" y="15">velar</text>
         </g>
-        <g id="glottal-button" role="button" transform="translate(0, 355)">
+        <g id="glottal-button" role="button" transform="translate(0, 430)">
           <text id="glottal-label" x="0" y="15">glottal</text>
         </g>
+      </g>
+
+      <g id="entry" role="button" transform="translate(-30, 500)">
+        <rect width="345" height="20"></rect>
+        <text x="175" y="15">Speak a word and watch the animation!</text>
       </g>
 
       <g id="voiceless" transform="translate(0, 0)">
@@ -124,29 +129,41 @@
           <rect class="pronounce" id="p-button" width="100" height="20"/>
           <text id="bilabial-label" x="50" y="15">p</text>
         </g>
-        <g id="voiceless-labiodental-button" data-place="labiodental" data-voice="voiceless" role="button" transform="translate(0, 70)">
+        <g id="voiceless-labiodental-button" data-place="labiodental" data-voice="voiceless" role="button" transform="translate(0, 80)">
           <rect class="pronounce" id="f-button" width="100" height="20"/>
           <text id="labiodental-label" x="50" y="15">f</text>
         </g>
-        <g id="voiceless-interdental-button" data-place="interdental" data-voice="voiceless" role="button" transform="translate(0, 100)">
+        <g id="voiceless-interdental-button" data-place="interdental" data-voice="voiceless" role="button" transform="translate(0, 110)">
           <rect class="pronounce" id="th1-button" width="100" height="20"/>
           <text id="interdental-label" x="50" y="15">th (thing)</text>
         </g>
-        <g id="voiceless-dental-button" data-place="dental" data-voice="voiceless" role="button" transform="translate(0, 130)">
-          <rect class="pronounce" id="t-button" width="100" height="35"/>
-          <text id="dental-label"><tspan x="50" y="15">t</tspan><tspan x="50" dy="15">s</tspan></text>
+        <g id="voiceless-dental-button" data-place="dental" data-voice="voiceless" role="button" transform="translate(0, 140)">
+          <rect class="pronounce" id="t-button" width="100" height="20"/>
+          <text id="dental-label" x="50" y="15">t</text>
         </g>
-        <g id="voiceless-alveopalatal-button" data-place="alveopalatal" data-voice="voiceless" role="button" transform="translate(0, 220)">
-          <rect class="pronounce" id="sh-button" width="100" height="35"/>
-          <text id="alveopalatal-label"><tspan x="50" y="15">sh (shoe)</tspan><tspan x="50" dy="15" class="example">ch (chart)</tspan></text>
+        <g id="voiceless-dental-button" data-place="dental" data-voice="voiceless" role="button" transform="translate(0, 165)">
+          <rect class="pronounce" id="s-button" width="100" height="20"/>
+          <text id="dental-label" x="50" dy="15">s</text>
         </g>
-        <g id="voiceless-velar-button" data-place="velar" data-voice="voiceless" role="button" transform="translate(0, 295)">
+        <g id="voiceless-alveopalatal-button" data-place="alveopalatal" data-voice="voiceless" role="button" transform="translate(0, 270)">
+          <rect class="pronounce" id="sh-button" width="100" height="20"/>
+          <text id="alveopalatal-label" x="50" y="15">sh (shoe)</text>
+        </g>
+        <g id="voiceless-alveopalatal-button" data-place="alveopalatal" data-voice="voiceless" role="button" transform="translate(0, 295)">
+          <rect class="pronounce" id="ch-button" width="100" height="20"/>
+          <text id="alveopalatal-label"><tspan x="50" y="15">ch (chart)</tspan></text>
+        </g>
+        <g id="voiceless-velar-button" data-place="velar" data-voice="voiceless" role="button" transform="translate(0, 355)">
           <rect class="pronounce" id="k-button" width="100" height="20"/>
           <text id="velar-label" x="50" y="15">k</text>
         </g>
-        <g id="voiceless-glottal-button" data-place="glottal" data-voice="voiceless" role="button" transform="translate(0, 355)">
-          <rect class="pronounce" id="uh-button" width="100" height="35"/>
-          <text id="glottal-label"><tspan x="50" y="15">uh</tspan><tspan x="50" dy="15" class="example">h</tspan></text>
+        <g id="voiceless-glottal-button" data-place="glottal" data-voice="voiceless" role="button" transform="translate(0, 430)">
+          <rect class="pronounce" id="uh-button" width="100" height="20"/>
+          <text id="glottal-label" x="50" y="15">uh</text>
+        </g>
+        <g id="voiceless-glottal-button" data-place="glottal" data-voice="voiceless" role="button" transform="translate(0, 455)">
+          <rect class="pronounce" id="h-button" width="100" height="20"/>
+          <text id="glottal-label" x="50" y="15">h</text>
         </g>
       </g>
 
@@ -154,43 +171,71 @@
         <text id="voiced-label" x="50" y="15">voiced</text>
 
         <g id="voiced-bilabial-button" data-place="bilabial" data-voice="voiced" role="button" transform="translate(0, 25)">
-          <rect class="pronounce" id="b-button" width="100" height="35"/>
-          <text id="bilabial-label"><tspan x="50" y="15">b</tspan><tspan x="50" dy="15">m</tspan></text>
+          <rect class="pronounce" id="b-button" width="100" height="20"/>
+          <text id="bilabial-label" x="50" y="15">b</text>
         </g>
-        <g id="voiced-labiodental-button" data-place="labiodental" data-voice="voiced" role="button" transform="translate(0, 70)">
+        <g id="voiced-bilabial-button" data-place="bilabial" data-voice="voiced" role="button" transform="translate(0, 50)">
+          <rect class="pronounce" id="m-button" width="100" height="20"/>
+          <text id="bilabial-label" x="50" dy="15">m</text>
+        </g>
+        <g id="voiced-labiodental-button" data-place="labiodental" data-voice="voiced" role="button" transform="translate(0, 80)">
           <rect class="pronounce" id="v-button" width="100" height="20"/>
           <text id="labiodental-label" x="50" y="15">v</text>
         </g>
-        <g id="voiced-interdental-button" data-place="interdental" data-voice="voiced" role="button" transform="translate(0, 100)">
+        <g id="voiced-interdental-button" data-place="interdental" data-voice="voiced" role="button" transform="translate(0, 110)">
           <rect class="pronounce" id="th2-button" width="100" height="20"/>
           <text id="interdental-label" x="50" y="15">th (then)</text>
         </g>
-        <g id="voiced-dental-button" data-place="dental" data-voice="voiced" role="button" transform="translate(0, 130)">
-          <rect class="pronounce" id="d-button" width="100" height="80"/>
-          <text id="dental-label"><tspan x="50" y="15">d</tspan><tspan x="50" dy="15">z</tspan><tspan x="50" dy="15">n</tspan><tspan x="50" dy="15">l</tspan><tspan x="50" dy="15">r</tspan></text>
+        <g id="voiced-dental-button" data-place="dental" data-voice="voiced" role="button" transform="translate(0, 140)">
+          <rect class="pronounce" id="d-button" width="100" height="20"/>
+          <text id="dental-label" x="50" y="15">d</text>
         </g>
-        <g id="voiced-alveopalatal-button" data-place="alveopalatal" data-voice="voiced" role="button" transform="translate(0, 220)">
+        <g id="voiced-dental-button" data-place="dental" data-voice="voiced" role="button" transform="translate(0, 165)">
+          <rect class="pronounce" id="z-button" width="100" height="20"/>
+          <text id="dental-label" x="50" y="15">z</text>
+        </g>
+        <g id="voiced-dental-button" data-place="dental" data-voice="voiced" role="button" transform="translate(0, 190)">
+          <rect class="pronounce" id="n-button" width="100" height="20"/>
+          <text id="dental-label" x="50" dy="15">n</text>
+        </g>
+        <g id="voiced-dental-button" data-place="dental" data-voice="voiced" role="button" transform="translate(0, 215)">
+          <rect class="pronounce" id="l-button" width="100" height="20"/>
+          <text id="dental-label" x="50" dy="15">l</text>
+        </g>
+        <g id="voiced-dental-button" data-place="dental" data-voice="voiced" role="button" transform="translate(0, 240)">
+          <rect class="pronounce" id="r-button" width="100" height="20"/>
+          <text id="dental-label" x="50" dy="15">r</text>
+        </g>
+        <g id="voiced-alveopalatal-button" data-place="alveopalatal" data-voice="voiced" role="button" transform="translate(0, 270)">
           <rect class="pronounce" id="dg-button" width="100" height="35"/>
           <text id="alveopalatal-label"><tspan x="50" y="15">dg</tspan><tspan x="50" dy="15" class="example">(ca<tspan class="hilite">s</tspan>ual, <tspan class="hilite">j</tspan>elly)</tspan></text>
         </g>
-        <g id="voiced-palatal-button" data-place="palatal" data-voice="voiced" role="button" transform="translate(0, 265)">
+        <g id="voiced-palatal-button" data-place="palatal" data-voice="voiced" role="button" transform="translate(0, 325)">
           <rect class="pronounce" id="y-button" width="100" height="20"/>
           <text id="palatal-label" x="50" y="15">y (yellow)</text>
         </g>
-        <g id="voiced-velar-button" data-place="velar" data-voice="voiced" role="button" transform="translate(0, 295)">
-          <rect class="pronounce" id="g-button" width="100" height="50"/>
-          <text id="velar-label"><tspan x="50" y="15">g</tspan><tspan x="50" dy="15">w</tspan><tspan x="50" dy="15">ng (sing)</tspan></text>
+        <g id="voiced-velar-button" data-place="velar" data-voice="voiced" role="button" transform="translate(0, 355)">
+          <rect class="pronounce" id="g-button" width="100" height="20"/>
+          <text id="velar-label" x="50" y="15">g</text>
+        </g>
+        <g id="voiced-velar-button" data-place="velar" data-voice="voiced" role="button" transform="translate(0, 380)">
+          <rect class="pronounce" id="w-button" width="100" height="20"/>
+          <text id="velar-label" x="50" dy="15">w</text>
+        </g>
+        <g id="voiced-velar-button" data-place="velar" data-voice="voiced" role="button" transform="translate(0, 405)">
+          <rect class="pronounce" id="ng-button" width="100" height="20"/>
+          <text id="velar-label" x="50" dy="15">ng (sing)</text>
         </g>
       </g>
 
-      <g id="rest-button" data-place="rest" data-voice="voiceless" role="button" transform="translate(60, 410)">
+      <g id="rest-button" data-place="rest" data-voice="voiceless" role="button" transform="translate(310, 180)">
         <rect width="80" height="20"/>
         <text id="rest-label" x="40" y="15">rest</text>
       </g>
 
     </g>
 
-    <g id="IPA-button" role="button" transform="translate(60, 440)">
+    <g id="IPA-button" role="button" transform="translate(310, 205)">
       <rect width="80" height="20"/>
       <text id="ipa-label" x="40" y="15">vowels</text>
     </g>

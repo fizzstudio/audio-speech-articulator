@@ -183,6 +183,8 @@ function pronounce () {
     const voice = soundObject.voice;
     window.setTimeout(say(sound), 100);
     window.setTimeout(animateSound(place, voice), 2000);
+    // tonguePosition = rest;
+    // jawPosition = rest;
   });
 };
 

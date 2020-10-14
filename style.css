@@ -16,13 +16,20 @@ tspan {
   font-weight: bold;
 }
 
-[role=button] {
+[data-place="bilabial"], [data-place="interdental"], [data-place="alveopalatal"], [data-place="velar"] {
   fill: #a99e89;
 }
 
-[role=button] rect {
-  rx: 2px;
-  ry: 2px;
+[data-place="labiodental"], [data-place="dental"], [data-place="palatal"], [data-place="glottal"] {
+  fill: #cfc1a7;
+}
+
+#entry {
+  fill: #95a9de;
+}
+
+#rest-button, #IPA-button {
+  fill: #8c7b5b;
 }
 
 #place-controls [role=button] rect:hover,
@@ -55,9 +62,8 @@ tspan {
 
 body {
   width: 100%;
-  max-width: 800px;
 }
 
 svg {
-  width: 1000px;
+  width: 1100px;
 }
