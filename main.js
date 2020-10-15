@@ -69,7 +69,7 @@ const pronunciation_lookup = {
   "th2" : {
     "sound" : "the",
     "place" : "interdental",
-    "voice" : "voiceless"
+    "voice" : "voiced"
   }, 
   "t" : {
     "sound" : "ta",
@@ -158,6 +158,13 @@ const pronunciation_lookup = {
   }
 };
 
+const consonantMaps = {
+  "c" : "k",
+  "q" : "kw",
+  "j" : "dg", 
+  "x" : "ks"
+}
+
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
@@ -171,6 +178,7 @@ function recognize (event) {
   recognition.start();
 }
 
+// TODO: split by vowel rather than just grabbing if consonant  
 recognition.onresult = function(event) {
   var result = event.results[0][0].transcript;
   console.log("recognized " + result);
@@ -181,8 +189,7 @@ recognition.onresult = function(event) {
       consonants.push(result.charAt(i));
     }
   }
-  console.log(consonants);
-  // Adjusted pronounce to take the array of consonants as argument  
+  console.log(consonants);  
   pronounce(consonants);
 }
 
@@ -212,15 +219,17 @@ function ToggleIPA (evt) {
 function pronounce (consonants) {
   console.log("pronounce " + consonants);
   consonants.forEach((consonant) => {
-    // Searching each consonant in the lookup table is causing the error  
-    // Latest approach was casting to string to aid lookup but that didn't change anything 
-    const soundObject = pronunciation_lookup[String(consonant)];
+    console.log(consonant);
+    let soundObject = pronunciation_lookup[consonant];
+    if(!soundObject) {
+      // TODO: search in alternate pronunciation table 
+    }
     const sound = soundObject.sound;
     const place = soundObject.place;
     const voice = soundObject.voice;
     window.setTimeout(say(sound), 100);
     window.setTimeout(animateSound(place, voice), 2000);
-    // Setting to rest breaks loop after one consonant - need to explore other options 
+    // TODO: Explore other options to slow down animation 
     // tonguePosition = rest;
     // jawPosition = rest;
   });
@@ -289,7 +298,6 @@ function AnimateMouth(mouthPart, currentPos, newPos) {
         if (eachNewNum > eachCurrentNum) {
           eachCurrentNum++;
           changed = true;
-          //console.log(eachNewNum +" : " + eachCurrentNum)
         } else if (eachCurrentNum > eachNewNum) {
           eachCurrentNum--;
           changed = true;
@@ -302,7 +310,6 @@ function AnimateMouth(mouthPart, currentPos, newPos) {
     mouthPart.setAttribute("d", currentPos);
 
     if (changed) {
-      //console.log(0) window.status = newPos +" :: " + currentPos;
       window.setTimeout(AnimateMouth(mouthPart, currentPos, newPos), 1000000);
     }
   }
