@@ -196,12 +196,13 @@ function recognize (event) {
   
 recognition.onresult = function(event) {
   var result = event.results[0][0].transcript;
+  console.log("recognized " + result);
   var consonants = result.split(/[aeiou]/);
   for(let i = 0; i < consonants.length; i++) {
     if(consonants[i].length > 1) {
       if(consonants[i].charAt(0) === consonants[i].charAt(1)) {
         consonants[i] = consonants[i].charAt(0);
-      }
+      } else if(consonants[i] === "th") consonants[i] += "1";
     }
   }
   pronounce(consonants);
