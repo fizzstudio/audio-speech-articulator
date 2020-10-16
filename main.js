@@ -193,19 +193,17 @@ recognition.maxAlternatives = 1;
 function recognize (event) {
   recognition.start();
 }
-
-// TODO: split by vowel rather than just grabbing if consonant  
+  
 recognition.onresult = function(event) {
   var result = event.results[0][0].transcript;
-  console.log("recognized " + result);
-  var consonants = [];
-  const vowels = ["a", "e", "i", "o", "u"];
-  for(let i = 0; i < result.length; i++) {
-    if(!vowels.includes(result.charAt(i))) {
-      consonants.push(result.charAt(i));
+  var consonants = result.split(/[aeiou]/);
+  for(let i = 0; i < consonants.length; i++) {
+    if(consonants[i].length > 1) {
+      if(consonants[i].charAt(0) === consonants[i].charAt(1)) {
+        consonants[i] = consonants[i].charAt(0);
+      }
     }
   }
-  console.log(consonants);  
   pronounce(consonants);
 }
 
