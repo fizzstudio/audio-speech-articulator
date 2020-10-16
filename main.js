@@ -15,9 +15,6 @@ window.onload = function() {
   VocalFolds = document.getElementById("vocalFolds");
   Cartilage = document.getElementById("CuneiformCorniculateCartilage");
 
-  const bananaButton = document.getElementById("banana");
-  bananaButton.addEventListener(`click`, pronounce, true);
-
   const entry = document.getElementById("entry");
   entry.addEventListener(`click`, recognize, true);
 
