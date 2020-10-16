@@ -159,10 +159,26 @@ const pronunciation_lookup = {
 };
 
 const consonantMaps = {
-  "c" : "k",
-  "q" : "kw",
-  "j" : "dg", 
-  "x" : "ks"
+  "c" : {
+    "sound": "ka",
+    "place" : "glottal",
+    "voice" : "voiceless"
+  },
+  "q" : {
+    "sound" : "kwuh",
+    "place" : "glottal",
+    "voice" : "voiceless"
+  },
+  "j" : {
+    "sound" : "juh", 
+    "place" : "alveopalatal", 
+    "voice" : "voiced"
+  },
+  "x" : {
+    "sound" : "iks", 
+    "place" : "glottal", 
+    "voice" : "voiceless"
+  }
 }
 
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
@@ -222,7 +238,7 @@ function pronounce (consonants) {
     console.log(consonant);
     let soundObject = pronunciation_lookup[consonant];
     if(!soundObject) {
-      // TODO: search in alternate pronunciation table 
+      soundObject = consonantMaps[consonant];
     }
     const sound = soundObject.sound;
     const place = soundObject.place;
