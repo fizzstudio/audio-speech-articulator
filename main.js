@@ -34,22 +34,22 @@ window.onload = function() {
 
 const pronunciation_lookup = {
   "p": {
-    "sound" : "pa",
+    "sound" : "/pə/",
     "place" : "bilabial",
     "voice" : "voiceless"
   },
   "b" : {
-    "sound" : "ba",
+    "sound" : "/bə/",
     "place" : "bilabial",
     "voice" : "voiced"
   }, 
   "m" : {
-    "sound" : "ma",
+    "sound" : "/mə/",
     "place" : "bilabial",
     "voice" : "voiced"
   },
   "f" : {
-    "sound" : "fa",
+    "sound" : "/fə/",
     "place" : "labiodental",
     "voice" : "voiceless"
   },
@@ -64,17 +64,17 @@ const pronunciation_lookup = {
     "voice" : "voiceless"
   }, 
   "th2" : {
-    "sound" : "the",
+    "sound" : "/ðə/",
     "place" : "interdental",
     "voice" : "voiced"
   }, 
   "t" : {
-    "sound" : "ta",
+    "sound" : "/tə/",
     "place" : "dental",
     "voice" : "voiceless"
   }, 
   "s" : {
-    "sound" : "sis",
+    "sound" : "/sə/",
     "place" : "dental",
     "voice" : "voiceless"
   }, 
@@ -84,12 +84,12 @@ const pronunciation_lookup = {
     "voice" : "voiced"
   }, 
   "z" : {
-    "sound" : "ziz",
+    "sound" : "/zə/",
     "place" : "dental",
     "voice" : "voiced"
   },
   "n" : {
-    "sound" : "na",
+    "sound" : "/nə/",
     "place" : "dental",
     "voice" : "voiced"
   }, 
@@ -99,7 +99,7 @@ const pronunciation_lookup = {
     "voice" : "voiced"
   }, 
   "r" : {
-    "sound" : "ar",
+    "sound" : "/ər/",
     "place" : "dental",
     "voice" : "voiced"
   }, 
@@ -124,7 +124,7 @@ const pronunciation_lookup = {
     "voice" : "voiced"
   }, 
   "k" : {
-    "sound" : "ka",
+    "sound" : "/kə/",
     "place" : "velar",
     "voice" : "voiceless"
   }, 
@@ -149,7 +149,7 @@ const pronunciation_lookup = {
     "voice" : "voiceless"
   },
   "h" : {
-    "sound" : "huh",
+    "sound" : "/hə/",
     "place" : "glottal",
     "voice" : "voiceless"
   }
@@ -157,12 +157,12 @@ const pronunciation_lookup = {
 
 const consonantMaps = {
   "c" : {
-    "sound": "ka",
+    "sound": "/kə/",
     "place" : "glottal",
     "voice" : "voiceless"
   },
   "q" : {
-    "sound" : "kwuh",
+    "sound" : "/kwə/",
     "place" : "glottal",
     "voice" : "voiceless"
   },
@@ -213,6 +213,7 @@ function speak(event) {
   const pronounce = pronunciation_lookup[key];
   const sound = pronounce.sound;
   say(sound);
+  //say("/ɛə(ɹ)/");
 }
 
 function say(sound) {
@@ -239,11 +240,9 @@ function pronounce (consonants) {
     const sound = soundObject.sound;
     const place = soundObject.place;
     const voice = soundObject.voice;
+    //animateAll();
     window.setTimeout(say(sound), 100);
     window.setTimeout(animateSound(place, voice), 2000);
-    // TODO: Explore other options to slow down animation 
-    // tonguePosition = rest;
-    // jawPosition = rest;
   });
 };
 
@@ -254,7 +253,14 @@ function ShowPosition (evt) {
   animateSound(place, voice);
 };
 
-function animateSound (place, voice) {
+// async function animateAll (consonant) {
+//   let sound = await animateSound();
+//   let mouth = await AnimateMouth();
+//   let tongue = await AnimateTongue();
+//   let 
+// }
+
+async function animateSound (place, voice) {
   var vocalFoldsDesc = vocalFoldsArray[voice];
   newVocalFolds = vocalFoldsDesc;
 
@@ -291,7 +297,7 @@ function animateSound (place, voice) {
   AnimatePalette();
 };
 
-function AnimateMouth(mouthPart, currentPos, newPos) {
+async function AnimateMouth(mouthPart, currentPos, newPos) {
   var currentPos = mouthPart.getAttribute("d");
   newPos = newPos.replace(/,/g, " ");
   currentPos = currentPos.replace(/,/g, " ");
@@ -328,7 +334,7 @@ function AnimateMouth(mouthPart, currentPos, newPos) {
 };
 
 var newTongue = null;
-function AnimateTongue() {
+async function AnimateTongue() {
   var currentTongue = Tongue.getAttribute("d");
   newTongue = newTongue.replace(/,/g, " ");
   currentTongue = currentTongue.replace(/,/g, " ");
@@ -365,7 +371,7 @@ function AnimateTongue() {
 };
 
 var newJaw = null;
-function AnimateJaw() {
+async function AnimateJaw() {
   var currentJaw = Jaw.getAttribute("d");
   newJaw = newJaw.replace(/,/g, " ");
   currentJaw = currentJaw.replace(/,/g, " ");
@@ -402,7 +408,7 @@ function AnimateJaw() {
 };
 
 var newPalette = null;
-function AnimatePalette() {
+async function AnimatePalette() {
   var currentPalette = Palette.getAttribute("d");
   newPalette = newPalette.replace(/,/g, " ");
   currentPalette = currentPalette.replace(/,/g, " ");
@@ -439,7 +445,7 @@ function AnimatePalette() {
 };
 
 var newVocalFolds = null;
-function AnimateVocalFolds() {
+async function AnimateVocalFolds() {
   var currentVocalFolds = VocalFolds.getAttribute("d");
   newVocalFolds = newVocalFolds.replace(/,/g, " ");
   currentVocalFolds = currentVocalFolds.replace(/,/g, " ");
@@ -476,7 +482,7 @@ function AnimateVocalFolds() {
 };
 
 var newCartilage = null;
-function AnimateCartilage() {
+async function AnimateCartilage() {
   var currentCartilage = Cartilage.getAttribute("d");
   newCartilage = newCartilage.replace(/,/g, " ");
   currentCartilage = currentCartilage.replace(/,/g, " ");
