@@ -240,8 +240,8 @@ function pronounce (consonants) {
     const place = soundObject.place;
     const voice = soundObject.voice;
     //animateAll();
-    requestAnimationFrame(say(sound));
-    requestAnimationFrame(animateSound(place, voice));
+    window.setTimeout(say(sound), 100);
+    window.setTimeout(animateSound(place, voice), 2000);
   });
 };
 
@@ -252,7 +252,55 @@ function ShowPosition (evt) {
   animateSound(place, voice);
 };
 
-function animateSound (place, voice) {
+// Abstracted function in order to just have one animation loop
+// figure out when changed is T/F inside for each loop - if any are changed you have to call animate all 
+// compare each articulator to itself to check if it still needs to be changed using d attribute (current state vs end state)
+// if end state 
+var newAnim = null;
+function animateAll() {
+  var changed = false;
+  animations = ["Jaw", "Palette", "VocalFolds", "Cartilage", "Tongue"]
+  animations.forEach((animation) => {
+    console.log(animation);
+    var current = animation.getAttribute("d");
+    newAnim = newAnim.replace(/,/g, " ");
+    current = current.replace(/,/g, " ");
+
+    if (newAnim != current) {
+
+      var numberArray = current.split(/\W+/);
+      var newArray = newAnim.split(/\W+/);
+      for (var n = 0; numberArray.length > n; n++) {
+        if (numberArray[n]) {
+          command = numberArray[n].match(/\D/);
+          eachDescNum = Number(numberArray[n].match(/\d+/));
+          eachNewNum = Number(newArray[n].match(/\d+/));
+
+          if ("Z" == command) {
+            eachDescNum = "";
+          } else if (eachNewNum > eachDescNum) {
+            eachDescNum++;
+            changed = true;
+          } else if (eachDescNum > eachNewNum) {
+            eachDescNum--;
+            changed = true;
+          }
+
+          numberArray[n] = command + eachDescNum;
+        }
+      }
+
+      var tempDesc = numberArray.join(" ");
+      animation.setAttribute("d", tempDesc);
+      // ONly call animate all once at end 
+      if (changed) {
+        window.setTimeout(animateAll());
+      }
+    }
+  });
+} 
+
+async function animateSound (place, voice) {
   var vocalFoldsDesc = vocalFoldsArray[voice];
   newVocalFolds = vocalFoldsDesc;
 
@@ -289,99 +337,60 @@ function animateSound (place, voice) {
   AnimatePalette();
 };
 
-// Abstracted function in order to just have one animation loop
-var newAnim = null;
-function animateAll() {
-  animations = ["Jaw", "Palette", "VocalFolds", "Cartilage", "Tongue"]
-  animations.forEach((animation) => {
-    console.log(animation);
-    var current = animation.getAttribute("d");
-    newAnim = newAnim.replace(/,/g, " ");
-    current = current.replace(/,/g, " ");
+// async function AnimateMouth(mouthPart, currentPos, newPos) {
+//   var currentPos = mouthPart.getAttribute("d");
+//   newPos = newPos.replace(/,/g, " ");
+//   currentPos = currentPos.replace(/,/g, " ");
 
-    if (newAnim != current) {
-      var changed = false;
+//   if (newPos != currentPos) {
+//     var changed = false;
 
-      var descArray = current.split(/\W+/);
-      var newArray = newAnim.split(/\W+/);
-      for (var n = 0; descArray.length > n; n++) {
-        if (descArray[n]) {
-          header = descArray[n].match(/\D/);
-          eachDescNum = Number(descArray[n].match(/\d+/));
-          eachNewNum = Number(newArray[n].match(/\d+/));
+//     var currentArray = currentPos.split(/\W+/);
+//     var newArray = newPos.split(/\W+/);
+//     for (var n = 0; currentArray.length > n; n++) {
+//       if (currentArray[n]) {
+//         command = currentArray[n].match(/\D/);
+//         eachCurrentNum = Number(currentArray[n].match(/\d+/));
+//         eachNewNum = Number(newArray[n].match(/\d+/));
 
-          if (eachNewNum > eachDescNum) {
-            eachDescNum++;
-            changed = true;
-          } else if (eachDescNum > eachNewNum) {
-            eachDescNum--;
-            changed = true;
-          }
-          descArray[n] = header + eachDescNum;
-        }
-      }
+//         if (eachNewNum > eachCurrentNum) {
+//           eachCurrentNum++;
+//           changed = true;
+//         } else if (eachCurrentNum > eachNewNum) {
+//           eachCurrentNum--;
+//           changed = true;
+//         }
+//         currentArray[n] = command + eachCurrentNum;
+//       }
+//     }
 
-      var tempDesc = descArray.join(" ");
-      animation.setAttribute("d", tempDesc);
+//     var currentPos = currentArray.join(" ");
+//     mouthPart.setAttribute("d", currentPos);
 
-      if (changed) {
-        requestAnimationFrame(animateAll());
-      }
-    }
-  });
-} 
-
-function AnimateMouth(mouthPart, currentPos, newPos) {
-  var currentPos = mouthPart.getAttribute("d");
-  newPos = newPos.replace(/,/g, " ");
-  currentPos = currentPos.replace(/,/g, " ");
-
-  if (newPos != currentPos) {
-    var changed = false;
-
-    var currentArray = currentPos.split(/\W+/);
-    var newArray = newPos.split(/\W+/);
-    for (var n = 0; currentArray.length > n; n++) {
-      if (currentArray[n]) {
-        header = currentArray[n].match(/\D/);
-        eachCurrentNum = Number(currentArray[n].match(/\d+/));
-        eachNewNum = Number(newArray[n].match(/\d+/));
-
-        if (eachNewNum > eachCurrentNum) {
-          eachCurrentNum++;
-          changed = true;
-        } else if (eachCurrentNum > eachNewNum) {
-          eachCurrentNum--;
-          changed = true;
-        }
-        currentArray[n] = header + eachCurrentNum;
-      }
-    }
-
-    var currentPos = currentArray.join(" ");
-    mouthPart.setAttribute("d", currentPos);
-
-    if (changed) {
-      requestAnimationFrame(AnimateMouth(mouthPart, currentPos, newPos));
-    }
-  }
-};
+//     if (changed) {
+//       window.setTimeout(AnimateMouth(mouthPart, currentPos, newPos), 1000000);
+//     }
+//   }
+// };
 
 var newTongue = null;
-function AnimateTongue() {
+async function AnimateTongue() {
   var currentTongue = Tongue.getAttribute("d");
+  console.log(currentTongue);
+  // Getting rid of delimiters
   newTongue = newTongue.replace(/,/g, " ");
   currentTongue = currentTongue.replace(/,/g, " ");
 
   if (newTongue != currentTongue) {
     var changed = false;
 
-    var descArray = currentTongue.split(/\W+/);
+    var numberArray = currentTongue.split(/\W+/);
     var newArray = newTongue.split(/\W+/);
-    for (var n = 0; descArray.length > n; n++) {
-      if (descArray[n]) {
-        header = descArray[n].match(/\D/);
-        eachDescNum = Number(descArray[n].match(/\d+/));
+    for (var n = 0; numberArray.length > n; n++) {
+      if (numberArray[n]) {
+        // Taking out command and getting the actual numbers from array 
+        command = numberArray[n].match(/\D/);
+        eachDescNum = Number(numberArray[n].match(/\d+/));
         eachNewNum = Number(newArray[n].match(/\d+/));
 
         if (eachNewNum > eachDescNum) {
@@ -391,21 +400,21 @@ function AnimateTongue() {
           eachDescNum--;
           changed = true;
         }
-        descArray[n] = header + eachDescNum;
+        numberArray[n] = command + eachDescNum;
       }
     }
 
-    var tempDesc = descArray.join(" ");
+    var tempDesc = numberArray.join(" ");
     Tongue.setAttribute("d", tempDesc);
 
     if (changed) {
-      requestAnimationFrame(AnimateTongue());
+      window.setTimeout("AnimateTongue()", 1);
     }
   }
 };
 
 var newJaw = null;
-function AnimateJaw() {
+async function AnimateJaw() {
   var currentJaw = Jaw.getAttribute("d");
   newJaw = newJaw.replace(/,/g, " ");
   currentJaw = currentJaw.replace(/,/g, " ");
@@ -413,12 +422,12 @@ function AnimateJaw() {
   if (newJaw != currentJaw) {
     var changed = false;
 
-    var descArray = currentJaw.split(/\W+/);
+    var numberArray = currentJaw.split(/\W+/);
     var newArray = newJaw.split(/\W+/);
-    for (var n = 0; descArray.length > n; n++) {
-      if (descArray[n]) {
-        header = descArray[n].match(/\D/);
-        eachDescNum = Number(descArray[n].match(/\d+/));
+    for (var n = 0; numberArray.length > n; n++) {
+      if (numberArray[n]) {
+        command = numberArray[n].match(/\D/);
+        eachDescNum = Number(numberArray[n].match(/\d+/));
         eachNewNum = Number(newArray[n].match(/\d+/));
 
         if (eachNewNum > eachDescNum) {
@@ -428,21 +437,21 @@ function AnimateJaw() {
           eachDescNum--;
           changed = true;
         }
-        descArray[n] = header + eachDescNum;
+        numberArray[n] = command + eachDescNum;
       }
     }
 
-    var tempDesc = descArray.join(" ");
+    var tempDesc = numberArray.join(" ");
     Jaw.setAttribute("d", tempDesc);
 
     if (changed) {
-      requestAnimationFrame(AnimateJaw());
+      window.setTimeout("AnimateJaw()", 1);
     }
   }
 };
 
 var newPalette = null;
-function AnimatePalette() {
+async function AnimatePalette() {
   var currentPalette = Palette.getAttribute("d");
   newPalette = newPalette.replace(/,/g, " ");
   currentPalette = currentPalette.replace(/,/g, " ");
@@ -450,12 +459,12 @@ function AnimatePalette() {
   if (newPalette != currentPalette) {
     var changed = false;
 
-    var descArray = currentPalette.split(/\W+/);
+    var numberArray = currentPalette.split(/\W+/);
     var newArray = newPalette.split(/\W+/);
-    for (var n = 0; descArray.length > n; n++) {
-      if (descArray[n]) {
-        header = descArray[n].match(/\D/);
-        eachDescNum = Number(descArray[n].match(/\d+/));
+    for (var n = 0; numberArray.length > n; n++) {
+      if (numberArray[n]) {
+        command = numberArray[n].match(/\D/);
+        eachDescNum = Number(numberArray[n].match(/\d+/));
         eachNewNum = Number(newArray[n].match(/\d+/));
 
         if (eachNewNum > eachDescNum) {
@@ -465,21 +474,21 @@ function AnimatePalette() {
           eachDescNum--;
           changed = true;
         }
-        descArray[n] = header + eachDescNum;
+        numberArray[n] = command + eachDescNum;
       }
     }
 
-    var tempDesc = descArray.join(" ");
+    var tempDesc = numberArray.join(" ");
     Palette.setAttribute("d", tempDesc);
 
     if (changed) {
-      requestAnimationFrame(AnimatePalette());
+      window.setTimeout("AnimatePalette()", 0);
     }
   }
 };
 
 var newVocalFolds = null;
-function AnimateVocalFolds() {
+async function AnimateVocalFolds() {
   var currentVocalFolds = VocalFolds.getAttribute("d");
   newVocalFolds = newVocalFolds.replace(/,/g, " ");
   currentVocalFolds = currentVocalFolds.replace(/,/g, " ");
@@ -487,12 +496,12 @@ function AnimateVocalFolds() {
   if (newVocalFolds != currentVocalFolds) {
     var changed = false;
 
-    var descArray = currentVocalFolds.split(/\W+/);
+    var numberArray = currentVocalFolds.split(/\W+/);
     var newArray = newVocalFolds.split(/\W+/);
-    for (var n = 0; descArray.length > n; n++) {
-      if (descArray[n]) {
-        header = descArray[n].match(/\D/);
-        eachDescNum = Number(descArray[n].match(/\d+/));
+    for (var n = 0; numberArray.length > n; n++) {
+      if (numberArray[n]) {
+        command = numberArray[n].match(/\D/);
+        eachDescNum = Number(numberArray[n].match(/\d+/));
         eachNewNum = Number(newArray[n].match(/\d+/));
 
         if (eachNewNum > eachDescNum) {
@@ -502,21 +511,21 @@ function AnimateVocalFolds() {
           eachDescNum--;
           changed = true;
         }
-        descArray[n] = header + eachDescNum;
+        numberArray[n] = command + eachDescNum;
       }
     }
 
-    var tempDesc = descArray.join(" ");
+    var tempDesc = numberArray.join(" ");
     VocalFolds.setAttribute("d", tempDesc);
 
     if (changed) {
-      requestAnimationFrame(AnimateVocalFolds());
+      window.setTimeout("AnimateVocalFolds()", 0);
     }
   }
 };
 
 var newCartilage = null;
-function AnimateCartilage() {
+async function AnimateCartilage() {
   var currentCartilage = Cartilage.getAttribute("d");
   newCartilage = newCartilage.replace(/,/g, " ");
   currentCartilage = currentCartilage.replace(/,/g, " ");
@@ -524,16 +533,17 @@ function AnimateCartilage() {
   if (newCartilage != currentCartilage) {
     var changed = false;
 
-    var descArray = currentCartilage.split(/\W+/);
+    var numberArray = currentCartilage.split(/\W+/);
     var newArray = newCartilage.split(/\W+/);
-    for (var n = 0; descArray.length > n; n++) {
-      if (descArray[n]) {
-        //console.log(descArray[n])
-        header = descArray[n].match(/\D/);
-        eachDescNum = Number(descArray[n].match(/\d+/));
+    for (var n = 0; numberArray.length > n; n++) {
+      if (numberArray[n]) {
+        //console.log(numberArray[n])
+        command = numberArray[n].match(/\D/);
+        eachDescNum = Number(numberArray[n].match(/\d+/));
         eachNewNum = Number(newArray[n].match(/\d+/));
 
-        if ("Z" == header) {
+        // Checking for close command (close path, takes no numbers)
+        if ("Z" == command) {
           eachDescNum = "";
         } else if (eachNewNum > eachDescNum) {
           eachDescNum++;
@@ -542,15 +552,15 @@ function AnimateCartilage() {
           eachDescNum--;
           changed = true;
         }
-        descArray[n] = header + eachDescNum;
+        numberArray[n] = command + eachDescNum;
       }
     }
 
-    var tempDesc = descArray.join(" ");
+    var tempDesc = numberArray.join(" ");
     Cartilage.setAttribute("d", tempDesc);
 
     if (changed) {
-      requestAnimationFrame(AnimateCartilage());
+      window.setTimeout("AnimateCartilage()", 0);
     }
   }
 };
