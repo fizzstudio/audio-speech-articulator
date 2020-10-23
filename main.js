@@ -1,5 +1,5 @@
 let Tongue = null;
-let Palette = null;
+let palate = null;
 let Jaw = null;
 let VocalFolds = null;
 let Cartilage = null;
@@ -10,7 +10,7 @@ let IPA_vowels = null;
 
 window.onload = function() {
   Tongue = document.getElementById("tongue");
-  Palette = document.getElementById("palette");
+  palate = document.getElementById("palate");
   Jaw = document.getElementById("jaw");
   VocalFolds = document.getElementById("vocalFolds");
   Cartilage = document.getElementById("CuneiformCorniculateCartilage");
@@ -260,20 +260,20 @@ var newAnim = null;
 function animateAll(place, voice) {
   console.log(place + " " + voice);
   var changed = false;
-  articulators = ["jaw", "palette", "tongue", "vocalfolds", "cartilage"];
+  articulators = ["jaw", "palate", "tongue", "vocalfolds", "cartilage"];
   articulators.forEach((articulator) => {
     console.log(articulator);
     var articulator_el = document.getElementById(articulator);
     console.log(articulator_el);
     var current = articulator_el.getAttribute("d");
     console.log("current " + current);
-    console.log(articulatorLookup["jaw"][1]);
     // TODO: figure out how to access place without causing error 
-    newAnim = articulatorLookup[articulator][place]["path"];
+    newAnim = articulatorLookup[articulator].place;
 
     if(!articulatorLookup[articulator][place]) {
       if(articulator === "jaw" || articulator === "tongue") place = "rest";
-      else if(articulator === "palette") place = "pharyngeal";
+      else if(articulator === "palate") place = "pharyngeal";
+      console.log("testing");
     }
 
     console.log(newAnim);
@@ -333,11 +333,11 @@ async function animateSound (place, voice) {
   // }
   // var jawDesc = jawArray[jawPosition];
 
-  // var palettePosition = place;
-  // if (!paletteArray[place]) {
-  //   palettePosition = "pharyngeal";
+  // var palatePosition = place;
+  // if (!palateArray[place]) {
+  //   palatePosition = "pharyngeal";
   // }
-  // var paletteDesc = paletteArray[palettePosition];
+  // var palateDesc = palateArray[palatePosition];
 
   // var tonguePosition = place;
   // if (!tongueArray[place]) {
@@ -350,8 +350,8 @@ async function animateSound (place, voice) {
 
   // newJaw = jawDesc;
   // AnimateJaw();
-  // newPalette = paletteDesc;
-  // AnimatePalette();
+  // newpalate = palateDesc;
+  // Animatepalate();
 };
 
 // async function AnimateMouth(mouthPart, currentPos, newPos) {
@@ -467,17 +467,17 @@ async function AnimateJaw() {
   }
 };
 
-var newPalette = null;
-async function AnimatePalette() {
-  var currentPalette = Palette.getAttribute("d");
-  newPalette = newPalette.replace(/,/g, " ");
-  currentPalette = currentPalette.replace(/,/g, " ");
+var newpalate = null;
+async function Animatepalate() {
+  var currentpalate = palate.getAttribute("d");
+  newpalate = newpalate.replace(/,/g, " ");
+  currentpalate = currentpalate.replace(/,/g, " ");
 
-  if (newPalette != currentPalette) {
+  if (newpalate != currentpalate) {
     var changed = false;
 
-    var numberArray = currentPalette.split(/\W+/);
-    var newArray = newPalette.split(/\W+/);
+    var numberArray = currentpalate.split(/\W+/);
+    var newArray = newpalate.split(/\W+/);
     for (var n = 0; numberArray.length > n; n++) {
       if (numberArray[n]) {
         command = numberArray[n].match(/\D/);
@@ -496,10 +496,10 @@ async function AnimatePalette() {
     }
 
     var tempDesc = numberArray.join(" ");
-    Palette.setAttribute("d", tempDesc);
+    palate.setAttribute("d", tempDesc);
 
     if (changed) {
-      window.setTimeout("AnimatePalette()", 0);
+      window.setTimeout("Animatepalate()", 0);
     }
   }
 };
@@ -641,23 +641,23 @@ const articulatorLookup = {
       }
   },
   
-  "palette" : {
+  "palate" : {
   
       "rest": {
         "path":"M30,221 C119,224 140,201 166,207 C177,223 173,245 163,228 S144,220 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221",
-        "desc":"The palette is in a place of rest."
+        "desc":"The palate is in a place of rest."
       },
       "glottal": {
         "path":"M30,221 C119,224 140,201 166,207 C177,223 173,245 163,228 S144,220 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221",
-        "desc":"The palette is in a place of rest."
+        "desc":"The palate is in a place of rest."
       },
       "bilabial": {
         "path":"M30,221 C118,220 140,199 175,211 C182,232 182,254 170,230 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C43,241 48,258 34,255 S36,241 29,221",
-        "desc":"The palette and velum are lowered."
+        "desc":"The palate and velum are lowered."
       },
       "labiodental": {
         "path":"M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C43,229 48,258 33,250 S37,238 29,221",
-        "desc":"The palette and velum are raised."
+        "desc":"The palate and velum are raised."
       },
       "pharyngeal": {
         "path":"M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221",
@@ -710,12 +710,12 @@ const articulatorLookup = {
 // jawArray["labiodental"] = "M175,418 C152,370 155,346 177,305 S172,299 163,298 C183,273 161,277 159,282 Q117,264 86,280 Q69,278 64,262 T60,274 C47,273 70,262 49,254 S47,267 37,291 C26,342 55,332 101,340 S131,364 136,375 Q143,399 140,420";
 // jawArray["pharyngeal"] = "M175,418 C152,370 155,346 177,305 S172,299 163,298 C183,273 161,277 159,282 Q117,264 88,278 Q70,298 63,280 T60,290 C48,288 54,268 38,276 S44,294 39,310 C27,361 55,350 99,349 S131,364 136,375 Q143,399 140,420";
 
-// var paletteArray = new Array();
-// paletteArray["rest"] = "M30,221 C119,224 140,201 166,207 C177,223 173,245 163,228 S144,220 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221";
-// paletteArray["glottal"] = "M30,221 C119,224 140,201 166,207 C177,223 173,245 163,228 S144,220 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221";
-// paletteArray["bilabial"] = "M30,221 C118,220 140,199 175,211 C182,232 182,254 170,230 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C43,241 48,258 34,255 S36,241 29,221";
-// paletteArray["labiodental"] = "M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C43,229 48,258 33,250 S37,238 29,221";
-// paletteArray["pharyngeal"] = "M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221";
+// var palateArray = new Array();
+// palateArray["rest"] = "M30,221 C119,224 140,201 166,207 C177,223 173,245 163,228 S144,220 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221";
+// palateArray["glottal"] = "M30,221 C119,224 140,201 166,207 C177,223 173,245 163,228 S144,220 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221";
+// palateArray["bilabial"] = "M30,221 C118,220 140,199 175,211 C182,232 182,254 170,230 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C43,241 48,258 34,255 S36,241 29,221";
+// palateArray["labiodental"] = "M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C43,229 48,258 33,250 S37,238 29,221";
+// palateArray["pharyngeal"] = "M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221";
 
 // var vocalFoldsArray = new Array();
 // vocalFoldsArray["voiceless"] = "M270,309 Q281,334 284,364 L295,360 Q291,324 275,301 H265 Q249,324 245,360 L256,364 Q259,334 270,309";
