@@ -258,14 +258,24 @@ function ShowPosition (evt) {
 // if end state 
 var newAnim = null;
 function animateAll(place, voice) {
+  console.log(place + " " + voice);
   var changed = false;
   articulators = ["jaw", "palette", "tongue", "vocalfolds", "cartilage"];
   articulators.forEach((articulator) => {
+    console.log(articulator);
     var articulator_el = document.getElementById(articulator);
     console.log(articulator_el);
     var current = articulator_el.getAttribute("d");
     console.log("current " + current);
-    newAnim = articulatorLookup[articulator];
+    console.log(articulatorLookup["jaw"][1]);
+    // TODO: figure out how to access place without causing error 
+    newAnim = articulatorLookup[articulator][place]["path"];
+
+    if(!articulatorLookup[articulator][place]) {
+      if(articulator === "jaw" || articulator === "tongue") place = "rest";
+      else if(articulator === "palette") place = "pharyngeal";
+    }
+
     console.log(newAnim);
     newAnim = newAnim.replace(/,/g, " ");
     current = current.replace(/,/g, " ");
@@ -289,7 +299,7 @@ function animateAll(place, voice) {
             eachDescNum--;
             changed = true;
           }
-          // TODO: changed has to be false at some point (when )
+          // TODO: changed has to be false at some point (otherwise we have infinite loop)
 
           // if(changed) break; ?? Because if just one is true then we need to call animateAll
           // if(current != newAnim)
