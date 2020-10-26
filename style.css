@@ -16,11 +16,11 @@ tspan {
   font-weight: bold;
 }
 
-[data-place="bilabial"], [data-place="interdental"], [data-place="alveopalatal"], [data-place="velar"] {
+[data-place="bilabial"], [data-place="dental"], [data-place="postalveolar"], [data-place="velar"] {
   fill: #a99e89;
 }
 
-[data-place="labiodental"], [data-place="dental"], [data-place="palatal"], [data-place="glottal"] {
+[data-place="labiodental"], [data-place="alveolar"], [data-place="palatal"], [data-place="glottal"] {
   fill: #cfc1a7;
 }
 

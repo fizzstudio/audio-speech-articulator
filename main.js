@@ -60,12 +60,12 @@ const pronunciation_lookup = {
   },
   "th1" : {
     "sound" : "thuh",
-    "place" : "interdental",
+    "place" : "dental",
     "voice" : "voiceless"
   }, 
   "th2" : {
     "sound" : "/ðə/",
-    "place" : "interdental",
+    "place" : "dental",
     "voice" : "voiced"
   }, 
   "t" : {
@@ -105,17 +105,17 @@ const pronunciation_lookup = {
   }, 
   "sh" : {
     "sound" : "shuh",
-    "place" : "alveopalatal",
+    "place" : "postalveolar",
     "voice" : "voiceless"
   }, 
   "ch" : {
     "sound" : "chuh",
-    "place" : "alveopalatal",
+    "place" : "postalveolar",
     "voice" : "voiceless"
   }, 
   "dg" : {
     "sound" : "juh",
-    "place" : "alveopalatal",
+    "place" : "postalveolar",
     "voice" : "voiced"
   }, 
   "y" : {
@@ -168,7 +168,7 @@ const consonantMaps = {
   },
   "j" : {
     "sound" : "juh", 
-    "place" : "alveopalatal", 
+    "place" : "postalveolar", 
     "voice" : "voiced"
   },
   "x" : {
@@ -268,13 +268,19 @@ function animateAll(place, voice) {
     var current = articulator_el.getAttribute("d");
     console.log("current " + current);
     // TODO: figure out how to access place without causing error 
-    newAnim = articulatorLookup[articulator].place;
-
-    if(!articulatorLookup[articulator][place]) {
-      if(articulator === "jaw" || articulator === "tongue") place = "rest";
-      else if(articulator === "palate") place = "pharyngeal";
-      console.log("testing");
+    let articulatorObject = articulatorLookup[articulator];
+    if(!articulatorObject[place]) {
+      newAnim = articulator["rest"];
     }
+    console.log(articulatorObject);
+    newAnim = articulatorObject[place];
+    
+
+    // if(!articulatorLookup[articulator][place]) {
+    //   if(articulator === "jaw" || articulator === "tongue") place = "rest";
+    //   else if(articulator === "palate") place = "pharyngeal";
+    //   console.log("testing");
+    // }
 
     console.log(newAnim);
     newAnim = newAnim.replace(/,/g, " ");
@@ -588,11 +594,11 @@ const articulatorLookup = {
         "path":"M159,283 C179,254 128,235 91,243 S59,264 86,280", 
         "desc":"The tongue is at a place of rest near the front of the mouth."
       },
+      // "dental": {
+      //   "path":"M159,283 C173,248 129,246 85,241 S58,259 86,280",
+      //   "desc":""
+      // },
       "dental": {
-        "path":"M159,283 C173,248 129,246 85,241 S58,259 86,280",
-        "desc":""
-      },
-      "interdental": {
         "path":"M159,283 C174,244 130,236 79,250 S67,259 86,280",
         "desc":""
       },
@@ -611,34 +617,33 @@ const articulatorLookup = {
       "velar": {
         "path":"M159,283 C158,162 126,236 88,249 S93,261 86,280",
         "desc":""
-      },
-      "uvular": {
-        "path":"M159,283 C183,177 147,230 94,249 S93,261 86,280",
-        "desc":""
-      },
-      "pharyngeal": {
-        "path":"M159,283 C204,257 196,219 120,246 S109,261 86,280",
-        "desc":""
       }
+      // "uvular": {
+      //   "path":"M159,283 C183,177 147,230 94,249 S93,261 86,280",
+      //   "desc":""
+      // }
+      // "pharyngeal": {
+      //   "path":"M159,283 C204,257 196,219 120,246 S109,261 86,280",
+      //   "desc":""
+      // }
   },
   "jaw" : {
-  
       "rest": {
         "path":"M175,418 C152,370 155,346 177,305 S172,299 163,298 C183,273 161,277 159,282 Q117,264 86,280 Q69,283 64,270 T61,283 C49,279 54,259 38,267 S44,285 39,301 C27,352 55,341 101,340 S131,364 136,375 Q143,399 140,420",
         "desc":"The jaw is in a place of rest."
       },
       "bilabial": {
         "path":"M175,418 C152,370 155,346 177,305 S172,299 163,298 C183,273 161,277 159,282 Q117,264 86,280 Q69,278 64,262 T60,274 C47,273 53,251 37,256 S41,268 37,291 C26,342 55,332 101,340 S131,364 136,375 Q143,399 140,420",
-        "desc":"The jaw is pulled up, allowing the lips to touch."
+        "desc":"The jaw is positioned to allow the lips to touch."
       },
       "labiodental": {
         "path":"M175,418 C152,370 155,346 177,305 S172,299 163,298 C183,273 161,277 159,282 Q117,264 86,280 Q69,278 64,262 T60,274 C47,273 70,262 49,254 S47,267 37,291 C26,342 55,332 101,340 S131,364 136,375 Q143,399 140,420",
-        "desc":""
-      },
-      "pharyngeal": {
-        "path":"M175,418 C152,370 155,346 177,305 S172,299 163,298 C183,273 161,277 159,282 Q117,264 88,278 Q70,298 63,280 T60,290 C48,288 54,268 38,276 S44,294 39,310 C27,361 55,350 99,349 S131,364 136,375 Q143,399 140,420",
-        "desc":""
+        "desc":"The jaw is positioned to allow the upper teeth to touch the lower lip."
       }
+      // "pharyngeal": {
+      //   "path":"M175,418 C152,370 155,346 177,305 S172,299 163,298 C183,273 161,277 159,282 Q117,264 88,278 Q70,298 63,280 T60,290 C48,288 54,268 38,276 S44,294 39,310 C27,361 55,350 99,349 S131,364 136,375 Q143,399 140,420",
+      //   "desc":""
+      // }
   },
   
   "palate" : {
@@ -658,11 +663,11 @@ const articulatorLookup = {
       "labiodental": {
         "path":"M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C43,229 48,258 33,250 S37,238 29,221",
         "desc":"The palate and velum are raised."
-      },
-      "pharyngeal": {
-        "path":"M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221",
-        "desc":""
       }
+      // "pharyngeal": {
+      //   "path":"M30,221 C118,220 138,193 170,203 C179,221 178,245 165,222 S126,225 90,228 Q76,238 63,240 C55,243 58,261 55,256 S51,247 48,236 C44,243 48,258 34,254 S37,238 29,221",
+      //   "desc":""
+      // }
   },
   
   "vocalFolds" : {
@@ -696,9 +701,9 @@ const articulatorLookup = {
 // // Use text description to be accessed by screen reader 
 // tongueArray["rest"] = "M159,283 C179,254 128,235 91,243 S59,264 86,280 ";
 // tongueArray["dental"] = "M159,283 C173,248 129,246 85,241 S58,259 86,280";
-// tongueArray["interdental"] = "M159,283 C174,244 130,236 79,250 S67,259 86,280";
+// tongueArray["dental"] = "M159,283 C174,244 130,236 79,250 S67,259 86,280";
 // tongueArray["alveolar"] = "M159,283 C174,244 131,254 87,242 S68,254 86,280";
-// tongueArray["alveopalatal"] = "M159,283 C145,247 91,206 74,246 S103,224 86,280";
+// tongueArray["postalveolar"] = "M159,283 C145,247 91,206 74,246 S103,224 86,280";
 // tongueArray["palatal"] = "M159,283 C177,213 113,214 87,248 S107,247 86,280";
 // tongueArray["velar"] = "M159,283 C158,162 126,236 88,249 S93,261 86,280";
 // tongueArray["uvular"] = "M159,283 C183,177 147,230 94,249 S93,261 86,280";
