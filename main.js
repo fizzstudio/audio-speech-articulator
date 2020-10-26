@@ -600,23 +600,23 @@ const articulatorLookup = {
       // },
       "dental": {
         "path":"M159,283 C174,244 130,236 79,250 S67,259 86,280",
-        "desc":""
+        "desc":"The tongue is positioned between the teeth."
       },
       "alveolar": {
         "path":"M159,283 C174,244 131,254 87,242 S68,254 86,280",
-        "desc":""
+        "desc":"The tongue is positioned to touch the alveolar ridge, located behind the teeth on the roof of the mouth."
       },
-      "alveopalatal": {
+      "postalveolar": {
         "path":"M159,283 C145,247 91,206 74,246 S103,224 86,280",
-        "desc":""
+        "desc":"The tongue is bunched near the middle of the mouth, behind the alveolar ridge."
       },
       "palatal": {
         "path":"M159,283 C177,213 113,214 87,248 S107,247 86,280",
-        "desc":""
+        "desc":"The tongue is bunched near the back of the mouth, at the hard palate."
       },
       "velar": {
         "path":"M159,283 C158,162 126,236 88,249 S93,261 86,280",
-        "desc":""
+        "desc":"The tongue is positioned far in the back of the mouth, touching the velum."
       }
       // "uvular": {
       //   "path":"M159,283 C183,177 147,230 94,249 S93,261 86,280",
